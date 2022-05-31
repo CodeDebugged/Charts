@@ -1,0 +1,80 @@
+﻿@model List<StudentScoreDetails>
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h4 class="display-4">Students Score Details By PolarArea Chart</h4>
+    <h3><a href="~/Home/Index">Back</a></h3>
+    <div class="card">
+        <div class="card-header">
+            <div class="chart">
+                <canvas id="polarChart"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.bundle.min.js"></script>
+<script>
+
+    var polarChartCanvas = document.getElementById("polarChart");
+
+         var studentname = [];
+     var score = [];
+
+    @if(Model.Count>0)
+    {
+        foreach(var item in Model)
+        {
+            @:studentname.push('@item.name');
+            @:score.push(@item.score);
+        }
+    }
+
+
+    var doughnutChart = new Chart(polarChartCanvas, {
+        type: 'polarArea',
+        data: {
+            labels: studentname,
+        datasets: [{
+            data: score,
+            borderWidth: 0,
+            backgroundColor: [
+                'rgb(255, 99, 132)',
+                'rgb(54, 162, 235)',
+                'rgb(157, 230, 41)',
+                'rgb(41, 224, 230)',
+                'rgb(255, 255, 0)'
+            ],
+            hoverBackgroundColor: [
+                'rgb(255, 99, 132)',
+                'rgb(54, 162, 235)',
+                'rgb(157, 230, 41)',
+                'rgb(41, 224, 230)',
+                'rgb(255, 255, 0)'
+            ]
+        }]
+    },
+        options: {
+            scale: {
+                ticks: {
+                    display: true,
+                    stepSize: 20
+                }
+            },
+            legend: {
+                position: "bottom",
+                labels: {
+                    boxWidth: 11,
+                    fontColor: "#757681",
+                    fontSize: 11
+                }
+            }
+        }
+    });
+
+</script>

@@ -1,0 +1,100 @@
+﻿@model List<StudentMarkDetails>
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h4 class="display-4">Students Mark Details By Bar Chart</h4>
+    <h3><a href="~/Home/Index">Back</a></h3>
+    <div class="card">
+        <div class="card-header">
+            <div class="chart">
+                <canvas id="barchart"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.bundle.min.js"></script>
+<script>
+
+    var barCanvas = document.getElementById("barchart");
+
+    var Physics = [];//these are all javascript array variables
+    var Chemistry = [];
+    var Biology = [];
+    var Mathematics = [];
+
+    @if(Model.Count>0)
+    {
+        foreach(var item in Model)
+        {
+            @:Physics.push(@item.Physics);
+            @:Chemistry.push(@item.Chemistry);
+            @:Biology.push(@item.Biology);
+            @:Mathematics.push(@item.Mathematics);
+        }
+    }
+
+
+    var Physics = {
+        label: 'Physics',
+        data: Physics,
+        backgroundColor: 'rgb(255, 99, 132)',
+        borderWidth: 0,
+        lineTension: 0,
+    };
+
+    var Chemistry = {
+        label: 'Chemistry',
+        data: Chemistry,
+        backgroundColor: 'rgb(54, 162, 235)',
+        borderWidth: 0,
+    };
+
+    var Biology = {
+        label: 'Biology',
+        data: Biology,
+        backgroundColor: 'rgb(157, 230, 41)',
+        borderWidth: 0,
+    };
+
+    var Mathematics = {
+        label: 'Mathematics',
+        data: Mathematics,
+        backgroundColor: 'rgb(41, 224, 230)',
+        borderWidth: 0,
+    };
+
+    var datasetvalues = {
+        labels: ["John", "Mary", "Asha", "Emily", "Bonnie"],//x-axis label values
+        datasets: [Physics, Chemistry, Biology, Mathematics]//y-axis
+    };
+
+    var chartOptions = {
+        scales: {
+            xAxes: [{
+                barPercentage: 1,//Percent (0-1) of the available width each bar should
+                categoryPercentage: 0.6,//Percent (0-1) of the available width each category
+
+            }],
+            yAxes: [{
+                barPercentage: 1,
+                categoryPercentage: 0.6,
+                ticks: {
+                    beginAtZero: true
+                }
+            }],
+        }
+    };
+
+    var barChart = new Chart(barCanvas, {
+        type: 'bar',
+        data: datasetvalues,
+        options: chartOptions
+    });
+
+</script>

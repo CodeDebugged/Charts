@@ -1,0 +1,103 @@
+﻿@model List<StudentMarkDetails>
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h4 class="display-4">Students Mark Details By Line Chart</h4>
+    <h3><a href="~/Home/Index">Back</a></h3>
+    <div class="card">
+        <div class="card-header">
+            <div class="chart1">
+                <canvas id="myChart2"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.bundle.min.js"></script>
+<script>
+
+    var Physics = [];//these are all javascript variables
+    var Chemistry = [];
+    var Biology = [];
+    var Mathematics = [];
+    var English = [];
+
+    @if(Model.Count>0)
+    {
+        foreach(var item in Model)
+        {
+            @:Physics.push(@item.Physics);
+            @:Chemistry.push(@item.Chemistry);
+            @:Biology.push(@item.Biology);
+            @:Mathematics.push(@item.Mathematics);
+        }
+    }
+
+    var Chart2 = document.getElementById('myChart2').getContext('2d');
+    var chart = new Chart(Chart2, {
+        type: 'line',
+        data: {
+            labels: ["John", "Mary", "Asha", "Emily","Bonnie"],//x axis labels
+            datasets: [{
+                label: "Physics",
+                backgroundColor: 'transparent',
+                borderColor: "#ff0000",
+                borderWidth: 2,
+                pointBorderColor: false,
+                startAngle: 0,
+                data: Physics,
+                fill: false,
+                lineTension: .4,
+                showLine: true,
+            }, {
+                label: "Chemistry",
+                fill: false,
+                lineTension: .4,
+                startAngle: 0,
+                data: Chemistry,
+                backgroundColor: "transparent",
+                pointBorderColor: "#660066",
+                borderColor: '#660066',
+                borderWidth: 2,
+                showLine: true,
+            }, {
+                label: "Biology",
+                fill: false,
+                lineTension: .4,
+                startAngle: 0,
+                data: Biology,
+                backgroundColor: "transparent",
+                pointBorderColor: "#00b300",
+                borderColor: '#00b300',
+                borderWidth: 2,
+                showLine: true,
+            },
+            {
+                label: "Mathematics",
+                fill: false,
+                lineTension: .4,
+                startAngle: 0,
+                data: Mathematics,
+                backgroundColor: "transparent",
+                pointBorderColor: "#3333cc",
+                borderColor: '#3333cc',
+                borderWidth: 2,
+                showLine: true,
+            }]
+        },
+
+        // Configuration options
+        options: {
+            title: {
+                display: true,
+                text: "Student Mark Details"
+            }
+        }
+    });
+
+</script>

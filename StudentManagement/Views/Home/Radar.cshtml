@@ -1,0 +1,102 @@
+﻿@model List<StudentMarkDetails>
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h4 class="display-4">Students Mark Details By Radar Chart</h4>
+    <h3><a href="~/Home/Index">Back</a></h3>
+    <div class="card">
+        <div class="card-header">
+            <div class="chart1">
+                <canvas id="radarchart"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.bundle.min.js"></script>
+<script>
+
+    var Physics = []; //these are javascript array variables
+    var Chemistry = [];
+    var Biology = [];
+    var Mathematics = [];
+
+    @if(Model.Count>0)
+    {
+        foreach(var item in Model)
+        {
+            @:Physics.push(@item.Physics);
+            @:Chemistry.push(@item.Chemistry);
+            @:Biology.push(@item.Biology);
+            @:Mathematics.push(@item.Mathematics);
+        }
+    }
+
+    var RadarChart = document.getElementById('radarchart').getContext('2d');
+    var chart = new Chart(RadarChart, {
+        type: 'radar',
+        data: {
+            labels: ["John", "Mary", "Asha", "Emily","Bonnie"],//x axis labels
+            datasets: [{
+                label: "Physics",
+                data: Physics,
+                fill: true,
+                backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                borderColor: 'rgb(255, 99, 132)',
+                pointBackgroundColor: 'rgb(255, 99, 132)',
+                pointBorderColor: '#fff',
+                pointHoverBackgroundColor: '#fff',
+                pointHoverBorderColor: 'rgb(255, 99, 132)'
+            }, {
+                label: "Chemistry",
+                    data: Chemistry,
+                fill: true,
+                backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                borderColor: 'rgb(54, 162, 235)',
+                pointBackgroundColor: 'rgb(54, 162, 235)',
+                pointBorderColor: '#fff',
+                pointHoverBackgroundColor: '#fff',
+                pointHoverBorderColor: 'rgb(54, 162, 235)'
+            }, {
+                label: "Biology",
+                    data: Biology,
+                fill: true,
+                backgroundColor: 'rgba(157, 230, 41, 0.2)',
+                borderColor: 'rgb(157, 230, 41)',
+                pointBackgroundColor: 'rgb(157, 230, 41)',
+                pointBorderColor: '#fff',
+                pointHoverBackgroundColor: '#fff',
+                pointHoverBorderColor: 'rgb(157, 230, 41)'
+            },
+            {
+                label: "Mathematics",
+                data: Mathematics,
+                fill: true,
+                backgroundColor: 'rgba(41, 224, 230, 0.2)',
+                borderColor: 'rgb(41, 224, 230)',
+                pointBackgroundColor: 'rgb(41, 224, 230)',
+                pointBorderColor: '#fff',
+                pointHoverBackgroundColor: '#fff',
+                pointHoverBorderColor: 'rgb(41, 224, 230)'
+
+            }]
+        },
+
+        // Configuration options
+        options: {
+            tooltips: {
+                callbacks: {
+                    label: function (tooltipItem, data) {
+                        return data.datasets[tooltipItem.datasetIndex].label + ": " + tooltipItem.yLabel;
+                    }
+                }
+            }
+        }
+    });
+
+</script>
